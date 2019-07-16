@@ -1,0 +1,6 @@
+# vs code files
+.vscode/*
+
+# dist files
+dist/*
+*.egg-info
