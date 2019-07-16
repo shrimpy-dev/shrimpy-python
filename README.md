@@ -425,8 +425,8 @@ backtest_results = client.run_backtest(
     '2018-11-02T00:00:00.000Z',                      # end_time
     '5000',                                          # initial_value in USD
     [
-        { symbol: "BTC", percent: new Decimal(50) },
-        { symbol: "ETH", percent: new Decimal(50) }
+        { symbol: "BTC", percent: '50' },
+        { symbol: "ETH", percent: '50' }
     ]                                                # allocations
 )
 ```
