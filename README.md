@@ -30,7 +30,7 @@ The clients for both the public and authenticated endpoints are identical. Pleas
 * [`get_supported_exchanges`](https://developers.shrimpy.io/docs/#get-supported-exchanges)
 
 ```python
-supported_exchanges = client.get_supported_exchanges('bittrex')
+supported_exchanges = client.get_supported_exchanges()
 ```
 
 * [`get_exchange_assets`](https://developers.shrimpy.io/docs/#get-exchange-assets)
@@ -324,10 +324,10 @@ client.set_strategy(
     '701e0d16-1e9e-42c9-b6a1-4cada1f395b8',   # user_id
     123,                                      # account_id
     {
-        isDynamic: False,
-        allocations: [
-            { symbol: 'BTC', percent: '50' },
-            { symbol: 'ETH', percent: '50' }
+        'isDynamic': False,
+        'allocations': [
+            { 'symbol': 'BTC', 'percent': '50' },
+            { 'symbol': 'ETH', 'percent': '50' }
         ]
     }                                         # strategy
 )
@@ -349,9 +349,9 @@ client.allocate(
     '701e0d16-1e9e-42c9-b6a1-4cada1f395b8',    # user_id
     123,                                       # account_id
     {
-        isDynamic: False,
-        allocations: [
-            { symbol: 'USDT', percent: '100' }
+        'isDynamic': False,
+        'allocations': [
+            { 'symbol': 'USDT', 'percent': '100' }
         ]
     }                                          # strategy
 )
@@ -425,8 +425,8 @@ backtest_results = client.run_backtest(
     '2018-11-02T00:00:00.000Z',                      # end_time
     '5000',                                          # initial_value in USD
     [
-        { symbol: "BTC", percent: '50' },
-        { symbol: "ETH", percent: '50' }
+        { 'symbol': "BTC", 'percent': '50' },
+        { 'symbol': "ETH", 'percent': '50' }
     ]                                                # allocations
 )
 ```
