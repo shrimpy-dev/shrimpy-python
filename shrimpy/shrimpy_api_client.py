@@ -1,7 +1,7 @@
 import requests
 import json
 from urllib.parse import urlencode
-from auth_provider import AuthProvider
+from shrimpy.auth_provider import AuthProvider
 
 
 class ShrimpyApiClient():
