@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="shrimpy_python",
-    version="0.0.1",
+    version="0.0.2",
     author="ShrimpyOfficial",
     author_email="support@shrimpy.io",
     description="The Official Shrimpy API Python Client",
@@ -21,10 +21,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/shrimpy-dev/shrimpy-python",
     install_requires=install_requires,
-    packages=setuptools.find_packages('shrimpy'),
-    package_dir={
-        '': 'shrimpy',
-    },
+    packages=["shrimpy"],
     keywords=[
         'orderbook', 'trade', 'bitcoin', 'ethereum', 
         'BTC', 'ETH', 'client', 'api', 'wrapper',

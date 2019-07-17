@@ -2,5 +2,9 @@
 .vscode/*
 
 # dist files
-dist/*
-*.egg-info
+/build/
+/dist/
+/docs/_*
+*.egg-info/
+*.py[co]
+.venv*
