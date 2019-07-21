@@ -14,9 +14,6 @@ class AuthProvider(AuthBase):
     def __call__(self, request):
         timestamp = int(time.time() *  1000)
         message = ''.join([request.path_url, request.method, str(timestamp), (request.body or '')])
-
-        print(request.path_url)
-
         headers = get_auth_headers(timestamp, message, self.api_key, self.secret_key)
         request.headers.update(headers)
 

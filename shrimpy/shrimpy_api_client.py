@@ -19,7 +19,7 @@ class ShrimpyApiClient():
     ##########
 
     def get_supported_exchanges(self):
-        endpoint = 'exchanges'
+        endpoint = 'list_exchanges'
         return self._call_endpoint('get', endpoint)
 
 
