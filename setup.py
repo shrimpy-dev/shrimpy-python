@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="shrimpy_python",
-    version="0.0.4",
+    version="0.0.5",
     author="ShrimpyOfficial",
     author_email="support@shrimpy.io",
     description="The Official Shrimpy API Python Client",

@@ -252,9 +252,12 @@ class ShrimpyApiClient():
         return self._call_endpoint('GET', endpoint)
 
     
-    def set_rebalance_period(self, user_id, exchange_account_id):
+    def set_rebalance_period(self, user_id, exchange_account_id, rebalance_period):
         endpoint = 'users/{}/accounts/{}/rebalance_period'.format(user_id, exchange_account_id)
-        return self._call_endpoint('POST', endpoint)
+        data = {
+            'rebalancePeriod': rebalance_period
+        }
+        return self._call_endpoint('POST', endpoint, data=data)
 
     
     def get_strategy(self, user_id, exchange_account_id):
