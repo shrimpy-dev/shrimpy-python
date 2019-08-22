@@ -472,9 +472,9 @@ subscribe_data = {
 }
 
 # Start processing the Shrimpy websocket stream!
-client.start()
+client.connect()
 client.subscribe(subscribe_data, handler)
 
 # Once complete, stop the client
-client.stop()
+client.disconnect()
 ```
