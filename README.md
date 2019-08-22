@@ -444,3 +444,37 @@ asset_dominance = client.get_asset_dominance()
 ```python
 asset_popularity = client.get_asset_popularity()
 ```
+
+## Websocket
+
+Users can access the Shrimpy websocket feed using the [`ShrimpyWsClient`](https://github.com/shrimpy-dev/shrimpy-python/blob/master/shrimpy/shrimpy_ws_client.py) class. A handler must be
+passed in on subscription that is responsible for processing incoming messages from the websocket
+stream. It is recommended that you simply send the message to another processing thread from your custom
+handler to prevent blocking the incoming message stream.
+
+The client handles pings to the Shrimpy server based on the [`API Documentation`](https://developers.shrimpy.io/docs/#websocket)
+
+```python
+import shrimpy
+
+
+client = shrimpy.ShrimpyWsClient()
+
+# This is a sample handler, it simply prints the incoming message to the console
+def handler(msg):
+    print(msg)
+
+subscribe_data = {
+    "type": "subscribe",
+    "exchange": "coinbasepro",
+    "pair": "ltc-btc",
+    "channel": "orderbook"
+}
+
+# Start processing the Shrimpy websocket stream!
+client.start()
+client.subscribe(subscribe_data, handler)
+
+# Once complete, stop the client
+client.stop()
+```
