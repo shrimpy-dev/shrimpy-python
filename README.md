@@ -445,6 +445,55 @@ asset_dominance = client.get_asset_dominance()
 asset_popularity = client.get_asset_popularity()
 ```
 
+### Historical Methods
+
+* [`get_historical_instruments`](https://developers.shrimpy.io/docs/#get-historical-instruments)
+
+```python
+instruments = client.get_historical_instruments()
+bittrex_instruments = client.get_historical_instruments('Bittrex')
+```
+
+* [`get_historical_trades`](https://developers.shrimpy.io/docs/#get-historical-trades)
+
+```python
+trades = client.get_historical_trades(
+    'Bittrex',
+    'LTC',
+    'BTC',
+    '2019-05-19T00:00:00.000Z',
+    '2019-05-20T00:00:00.000Z',
+    100
+)
+```
+
+* [`get_historical_orderbooks`](https://developers.shrimpy.io/docs/#get-historical-orderbooks)
+
+```python
+orderbooks = client.get_historical_orderbooks(
+    'Bittrex',
+    'LTC',
+    'BTC',
+    '2019-05-19T00:00:00.000Z',
+    '2019-05-20T00:00:00.000Z',
+    100
+)
+```
+
+### Management Methods
+
+* [`get_status`](https://developers.shrimpy.io/docs/#get-status)
+
+```python
+status = client.get_status()
+```
+
+* [`get_usage`](https://developers.shrimpy.io/docs/#get-usage)
+
+```python
+usage = client.get_usage()
+```
+
 ## Websocket
 
 Users can access the Shrimpy websocket feed using the [`ShrimpyWsClient`](https://github.com/shrimpy-dev/shrimpy-python/blob/master/shrimpy/shrimpy_ws_client.py) class. A handler must be

@@ -354,8 +354,78 @@ class ShrimpyApiClient():
         return self._call_endpoint('GET', endpoint)
 
     
-    def get_asset_popularity(self): 
+    def get_asset_popularity(self):
         endpoint = 'insights/asset_popularity'
+        return self._call_endpoint('GET', endpoint)
+
+
+    ##############
+    # Historical #
+    ##############
+
+    def get_historical_trades(self, exchange, base_trading_symbol, quote_trading_symbol, start_time, end_time, limit):
+        endpoint = 'historical/trades'
+        params = {
+            'exchange': exchange,
+            'baseTradingSymbol': base_trading_symbol,
+            'quoteTradingSymbol': quote_trading_symbol,
+            'startTime': start_time,
+            'endTime': end_time,
+            'limit': limit
+        }
+        query_string = self._create_query_string(
+            endpoint,
+            params
+        )
+
+        return self._call_endpoint('GET', query_string)
+
+
+    def get_historical_orderbooks(self, exchange, base_trading_symbol, quote_trading_symbol, start_time, end_time, limit):
+        endpoint = 'historical/orderbooks'
+        params = {
+            'exchange': exchange,
+            'baseTradingSymbol': base_trading_symbol,
+            'quoteTradingSymbol': quote_trading_symbol,
+            'startTime': start_time,
+            'endTime': end_time,
+            'limit': limit
+        }
+        query_string = self._create_query_string(
+            endpoint,
+            params
+        )
+
+        return self._call_endpoint('GET', query_string)
+
+
+    def get_historical_instruments(self, exchange=None, base_trading_symbol=None, quote_trading_symbol=None):
+        endpoint = 'historical/instruments'
+        params = {}
+        self._add_param_or_ignore(params, 'exchange', exchange)
+        self._add_param_or_ignore(params, 'baseTradingSymbol', base_trading_symbol)
+        self._add_param_or_ignore(params, 'quoteTradingSymbol', quote_trading_symbol)
+        query_string = self._create_query_string(
+            endpoint,
+            params
+        )
+
+        return self._call_endpoint('GET', query_string)
+
+
+    ##############
+    # Management #
+    ##############
+
+    def get_status(self):
+        endpoint = 'management/status'
+
+        return self._call_endpoint('GET', endpoint)
+
+
+    def get_usage(self):
+        endpoint = 'management/usage'
+
         return self._call_endpoint('GET', endpoint)
 
 
