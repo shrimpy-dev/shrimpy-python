@@ -480,6 +480,20 @@ orderbooks = client.get_historical_orderbooks(
 )
 ```
 
+* [`get_historical_candles`](https://developers.shrimpy.io/docs/#get-historical-candles)
+
+```python
+candles = client.get_historical_candles(
+    'Bittrex',
+    'LTC',
+    'BTC',
+    '2019-05-19T00:00:00.000Z',
+    '2019-05-20T00:00:00.000Z',
+    100,
+    '1m'
+)
+```
+
 ### Management Methods
 
 * [`get_status`](https://developers.shrimpy.io/docs/#get-status)
@@ -507,11 +521,22 @@ The client handles pings to the Shrimpy server based on the [`API Documentation`
 import shrimpy
 
 
-client = shrimpy.ShrimpyWsClient()
+public_key = '6d73c2464a71b94a81aa7b13d...'
+private_key = 'e6238b0de3cdf19c7861f8e8f5d137ce7113ac1e884b191a14bbb2...'
+
+# This is a sample handler, it simply prints the incoming message to the console
+def error_handler(err):
+    print(err)
+
 
 # This is a sample handler, it simply prints the incoming message to the console
 def handler(msg):
     print(msg)
+
+
+api_client = shrimpy.ShrimpyApiClient(public_key, private_key)
+raw_token = api_client.get_token()
+client = shrimpy.ShrimpyWsClient(error_handler, raw_token['token'])
 
 subscribe_data = {
     "type": "subscribe",

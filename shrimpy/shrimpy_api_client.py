@@ -399,6 +399,25 @@ class ShrimpyApiClient():
         return self._call_endpoint('GET', query_string)
 
 
+    def get_historical_candles(self, exchange, base_trading_symbol, quote_trading_symbol, start_time, end_time, limit, interval):
+        endpoint = 'historical/candles'
+        params = {
+            'exchange': exchange,
+            'baseTradingSymbol': base_trading_symbol,
+            'quoteTradingSymbol': quote_trading_symbol,
+            'startTime': start_time,
+            'endTime': end_time,
+            'limit': limit,
+            'interval': interval
+        }
+        query_string = self._create_query_string(
+            endpoint,
+            params
+        )
+
+        return self._call_endpoint('GET', query_string)
+
+
     def get_historical_instruments(self, exchange=None, base_trading_symbol=None, quote_trading_symbol=None):
         endpoint = 'historical/instruments'
         params = {}
@@ -425,6 +444,16 @@ class ShrimpyApiClient():
 
     def get_usage(self):
         endpoint = 'management/usage'
+
+        return self._call_endpoint('GET', endpoint)
+
+
+    #############
+    # WebSocket #
+    #############
+
+    def get_token(self):
+        endpoint = 'ws/token'
 
         return self._call_endpoint('GET', endpoint)
 

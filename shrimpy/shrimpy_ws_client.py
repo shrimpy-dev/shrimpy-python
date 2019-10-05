@@ -35,8 +35,8 @@ class ShrimpyWsClient():
     are defined, errors must be handled explicitly.
     '''
 
-    def __init__(self, error_handler=None):
-        self.base_uri = 'wss://ws-feed.shrimpy.io/'
+    def __init__(self, error_handler=None, token=None):
+        self.base_url = 'wss://ws-feed.shrimpy.io'
         self.subscription_handlers = {}
         self.error_handler = error_handler
         self.pending_messages_to_send = []
@@ -45,6 +45,7 @@ class ShrimpyWsClient():
         self.is_closed = False
         self.connection = None
         self.connection_close_timeout = 10
+        self.token = token
 
     def connect(self):
         self.socket_thread = threading.Thread(target=self._run_socket_thread)
@@ -97,7 +98,11 @@ class ShrimpyWsClient():
         '''
             Handle connecting to shrimpy websocket server
         '''
-        self.connection = await websockets.client.connect(self.base_uri)
+        url = self.base_url
+        if (self.token):
+            url = self.base_url + "?token=" + self.token
+
+        self.connection = await websockets.client.connect(url)
         if (self.connection is None) or (not self.connection.open):
             raise ConnectionFailureException('Failed to start the connection. Please reconnect.')
 
@@ -113,6 +118,11 @@ class ShrimpyWsClient():
             except Exception:
                 # Exceptions during connection termination aren't very useful
                 pass
+
+    async def _reconnect(self, token=None):
+        self.token = token
+        await self._disconnect()
+        await self._connect()
 
     async def _receive_message_handler(self):
         '''
