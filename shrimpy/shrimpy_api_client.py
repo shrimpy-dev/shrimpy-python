@@ -7,9 +7,10 @@ from shrimpy.auth_provider import AuthProvider
 class ShrimpyApiClient():
     """Authenticated access to the Shrimpy Developer API"""
 
-    def __init__(self, key, secret):
+    def __init__(self, key, secret, timeout=300):
         self.url = 'https://dev-api.shrimpy.io/v1/'
         self.auth_provider = None
+        self.timeout = timeout
         if (key and secret):
             self.auth_provider = AuthProvider(key, secret)
         self.session = requests.Session()
@@ -473,7 +474,7 @@ class ShrimpyApiClient():
             params=params,
             data=data,
             auth=self.auth_provider,
-            timeout=300
+            timeout=self.timeout
         )
 
         return api_request.json()
