@@ -473,7 +473,7 @@ class ShrimpyApiClient():
             params=params,
             data=data,
             auth=self.auth_provider,
-            timeout=30
+            timeout=300
         )
 
         return api_request.json()
