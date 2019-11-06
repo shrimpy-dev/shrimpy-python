@@ -447,6 +447,19 @@ asset_popularity = client.get_asset_popularity()
 
 ### Historical Methods
 
+* [`get_historical_count`](https://developers.shrimpy.io/docs/#get-historical-count)
+
+```python
+count = client.get_historical_count(
+    'trade',
+    'Bittrex',
+    'LTC',
+    'BTC',
+    '2019-05-19T01:00:00.000Z',
+    '2019-05-20T02:00:00.000Z'
+)
+```
+
 * [`get_historical_instruments`](https://developers.shrimpy.io/docs/#get-historical-instruments)
 
 ```python

@@ -433,6 +433,24 @@ class ShrimpyApiClient():
         return self._call_endpoint('GET', query_string)
 
 
+    def get_historical_count(self, data_type, exchange, base_trading_symbol, quote_trading_symbol, start_time, end_time):
+        endpoint = 'historical/count'
+        params = {
+            'type': data_type,
+            'exchange': exchange,
+            'baseTradingSymbol': base_trading_symbol,
+            'quoteTradingSymbol': quote_trading_symbol,
+            'startTime': start_time,
+            'endTime': end_time
+        }
+        query_string = self._create_query_string(
+            endpoint,
+            params
+        )
+
+        return self._call_endpoint('GET', query_string)
+
+
     ##############
     # Management #
     ##############
