@@ -106,12 +106,14 @@ class ShrimpyApiClient():
         data = { 'name': name }
         return self._call_endpoint('POST', endpoint, data=data)
 
-    
+
+    # Deprecated
     def enable_user(self, user_id):
         endpoint = 'users/{}/enable'.format(user_id)
         return self._call_endpoint('POST', endpoint)
 
-    
+
+    # Deprecated
     def disable_user(self, user_id):
         endpoint = 'users/{}/disable'.format(user_id)
         return self._call_endpoint('POST', endpoint)

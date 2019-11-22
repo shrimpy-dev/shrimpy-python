@@ -112,22 +112,6 @@ client.name_user(
 )
 ```
 
-* [`enable_user`](https://developers.shrimpy.io/docs/#enabling-a-user)
-
-```python
-client.enable_user(
-    '701e0d16-1e9e-42c9-b6a1-4cada1f395b8' # user_id
-)
-```
-
-* [`disable_user`](https://developers.shrimpy.io/docs/#disabling-a-user)
-
-```python
-client.disable_user(
-    '701e0d16-1e9e-42c9-b6a1-4cada1f395b8' # user_id
-)
-```
-
 ### User API Keys Methods
 
 * [`get_api_keys`](https://developers.shrimpy.io/docs/#get-api-keys)
