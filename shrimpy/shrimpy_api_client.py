@@ -107,6 +107,11 @@ class ShrimpyApiClient():
         return self._call_endpoint('POST', endpoint, data=data)
 
 
+    def remove_user(self, user_id):
+        endpoint = 'users/{}'.format(user_id)
+        return self._call_endpoint('DELETE', endpoint)
+
+
     # Deprecated
     def enable_user(self, user_id):
         endpoint = 'users/{}/enable'.format(user_id)
@@ -463,6 +468,13 @@ class ShrimpyApiClient():
         return self._call_endpoint('GET', endpoint)
 
 
+    def get_credits(self):
+        endpoint = 'management/credits'
+
+        return self._call_endpoint('GET', endpoint)
+
+
+    # Deprecated
     def get_usage(self):
         endpoint = 'management/usage'
 

@@ -108,7 +108,16 @@ user_id = create_user_response['id']
 
 ```python
 client.name_user(
+    '701e0d16-1e9e-42c9-b6a1-4cada1f395b8', # user_id
     'mycustomname' # name
+)
+```
+
+* [`remove_user`](https://developers.shrimpy.io/docs/#removing-a-user)
+
+```python
+client.remove_user(
+    '701e0d16-1e9e-42c9-b6a1-4cada1f395b8', # user_id
 )
 ```
 
@@ -497,6 +506,12 @@ candles = client.get_historical_candles(
 
 ```python
 status = client.get_status()
+```
+
+* [`get_credits`](https://developers.shrimpy.io/docs/#get-credits)
+
+```python
+usage = client.get_credits()
 ```
 
 * [`get_usage`](https://developers.shrimpy.io/docs/#get-usage)
