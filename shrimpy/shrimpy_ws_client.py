@@ -42,7 +42,7 @@ class ShrimpyWsClient():
         self.pending_messages_to_send = []
         self.pending_messages_lock = threading.Lock()
         self.socket_thread = None
-        self.is_closed = False
+        self.close_requested = False
         self.connection = None
         self.connection_close_timeout = 10
         self.token = token
@@ -52,12 +52,13 @@ class ShrimpyWsClient():
         self.socket_thread.start()
 
     def disconnect(self):
-        if (self.is_closed):
+        if (self.close_requested):
             # Already closed
             return
 
-        self.is_closed = True
+        self.close_requested = True
         self.socket_thread.join()
+        self.close_requested = False
 
     def subscribe(self, subscription_data, handler):
         '''
@@ -106,8 +107,6 @@ class ShrimpyWsClient():
         if (self.connection is None) or (not self.connection.open):
             raise ConnectionFailureException('Failed to start the connection. Please reconnect.')
 
-        self.is_closed = False
-
     async def _disconnect(self):
         '''
             Disconnect from the shrimpy websocket server
@@ -129,7 +128,7 @@ class ShrimpyWsClient():
             The core loop that runs the websocket logic
         '''
         while True:
-            if self.is_closed:
+            if self.close_requested:
                 return
 
             try:
