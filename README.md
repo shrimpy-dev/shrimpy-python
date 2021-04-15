@@ -424,6 +424,16 @@ backtest_results = client.run_backtest(
 )
 ```
 
+* [`get_trend`](https://developers.shrimpy.io/docs/#trend)
+
+```python
+trend = client.get_trend(
+    'binance',                                       # exchange
+    'BTC',                                           # base_symbol
+    'BIDR',                                          # quote_symbol
+)
+```
+
 ### Insight Methods
 
 * [`get_asset_dominance`](https://developers.shrimpy.io/docs/#get-asset-dominance)

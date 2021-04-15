@@ -369,6 +369,22 @@ class ShrimpyApiClient():
         )
         return self._call_endpoint('GET', query_string)
 
+
+     ## Trend
+
+    def get_trend(self, exchange, base_trading_symbol, quote_trading_symbol):
+        endpoint = 'analytics/trend'
+        params = {
+            'exchange':exchange,
+            'baseTradingSymbol': base_trading_symbol,
+            'quoteTradingSymbol': quote_trading_symbol
+        }
+        query_string = self._create_query_string(
+            endpoint,
+            params
+        )
+        return self._call_endpoint('GET', query_string)
+
     ## Insights
 
     def get_asset_dominance(self): 
