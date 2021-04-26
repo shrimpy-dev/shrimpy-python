@@ -424,6 +424,16 @@ backtest_results = client.run_backtest(
 )
 ```
 
+* [`get_predictions`](https://developers.shrimpy.io/docs/#get-predictions)
+
+```python
+predictions = client.get_predictions(
+    'Bittrex',                                       # exchange
+    'LTC',                                           # base_symbol
+    'BTC'                                            # quote_symbol
+)
+```
+
 * [`get_trend`](https://developers.shrimpy.io/docs/#trend)
 
 ```python
