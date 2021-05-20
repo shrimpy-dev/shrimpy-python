@@ -1,4 +1,4 @@
-class Strategy():
+class Strategy:
     def __init__(self, is_dynamic):
         self._is_dynamic = is_dynamic
 
@@ -9,10 +9,10 @@ class StaticStrategy(Strategy):
         super(StaticStrategy, self).__init__(False)
         self._allocations = allocations
 
-
     """Returns dictionary keyed according to shrimpy allocations type"""
+
     def get_api_format(self):
-        allocations = [a.get_allocation() for a in  self._allocations]
+        allocations = [a.get_allocation() for a in self._allocations]
         return {
             'isDynamic': self._is_dynamic,
             'allocations': allocations
@@ -29,7 +29,6 @@ class DynamicStrategy(Strategy):
         self._max_percent = max_percent
         self._is_equal_weight = is_equal_weight
 
-    
     def get_api_format(self):
         return {
             'isDynamic': self._is_dynamic,

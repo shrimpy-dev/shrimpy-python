@@ -1,6 +1,9 @@
 import asyncio
+import asyncio.tasks
 import json
 import websockets
+import websockets.client
+import websockets.exceptions
 import threading
 
 
@@ -25,15 +28,15 @@ class ShrimpyWsException(Exception):
         self.error_message = shrimpy_raw_error.get('message', None)
 
 
-class ShrimpyWsClient():
-    '''
+class ShrimpyWsClient:
+    """
     The Shrimpy Websocket Client is intended to be used to access the websocket streams
     and manipulate the data received using callbacks.
 
     It provides reconnection and ping management. Errors received while streaming data
     are routed to the error callbacks defined per subscription. If no callbacks
     are defined, errors must be handled explicitly.
-    '''
+    """
 
     def __init__(self, error_handler=None, token=None):
         self.base_url = 'wss://ws-feed.shrimpy.io'
@@ -52,7 +55,7 @@ class ShrimpyWsClient():
         self.socket_thread.start()
 
     def disconnect(self):
-        if (self.is_closed):
+        if self.is_closed:
             # Already closed
             return
 
@@ -60,9 +63,9 @@ class ShrimpyWsClient():
         self.socket_thread.join()
 
     def subscribe(self, subscription_data, handler):
-        '''
+        """
             Sending subscription_data to webSocket server
-        '''
+        """
         with self.pending_messages_lock:
             self.pending_messages_to_send.append(subscription_data)
 
@@ -70,36 +73,36 @@ class ShrimpyWsClient():
         self.subscription_handlers[topic] = handler
 
     def unsubscribe(self, subscription_data):
-        '''
+        """
             Sending subscription_data to webSocket server
-        '''
+        """
         with self.pending_messages_lock:
             self.pending_messages_to_send.append(subscription_data)
 
         topic = self._get_topic(subscription_data)
         del self.subscription_handlers[topic]
 
+    # noinspection PyBroadException
     def _run_socket_thread(self):
+        loop = asyncio.new_event_loop()
         try:
-            loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             loop.run_until_complete(self._connect())
             loop.run_until_complete(self._receive_message_handler())
+            print(loop)
         except Exception:
             # Exceptions must be handled via the error handler
             pass
         finally:
-            for task in asyncio.Task.all_tasks():
-                task.cancel()
             loop.run_until_complete(self._disconnect())
             loop.stop()
 
     async def _connect(self):
-        '''
+        """
             Handle connecting to shrimpy websocket server
-        '''
+        """
         url = self.base_url
-        if (self.token):
+        if self.token:
             url = self.base_url + "?token=" + self.token
 
         self.connection = await websockets.client.connect(url)
@@ -108,11 +111,12 @@ class ShrimpyWsClient():
 
         self.is_closed = False
 
+    # noinspection PyBroadException
     async def _disconnect(self):
-        '''
+        """
             Disconnect from the shrimpy websocket server
-        '''
-        if (self.connection != None):
+        """
+        if self.connection is not None:
             try:
                 await self.connection.close()
             except Exception:
@@ -125,16 +129,16 @@ class ShrimpyWsClient():
         await self._connect()
 
     async def _receive_message_handler(self):
-        '''
+        """
             The core loop that runs the websocket logic
-        '''
+        """
         while True:
             if self.is_closed:
                 return
 
             try:
                 # First send pending messages
-                pending_messages_to_send = []
+
                 with self.pending_messages_lock:
                     pending_messages_to_send, self.pending_messages_to_send = self.pending_messages_to_send, []
 
@@ -146,7 +150,7 @@ class ShrimpyWsClient():
                 parsed_message = json.loads(message)
                 topic = self._get_topic(parsed_message)
 
-                if (topic == 'ping'):
+                if topic == 'ping':
                     await self._pong(parsed_message['data'])
                 else:
                     await self._run_handler(topic, parsed_message)
@@ -157,8 +161,8 @@ class ShrimpyWsClient():
     async def _run_handler(self, topic, parsed_message):
         try:
             loop = asyncio.get_event_loop()
-            if (topic == 'error'):
-                if (self.error_handler != None):
+            if topic == 'error':
+                if self.error_handler is not None:
                     loop.run_in_executor(None, self.error_handler, parsed_message)
                 else:
                     raise ShrimpyWsException(json.dumps(parsed_message))
@@ -170,10 +174,10 @@ class ShrimpyWsClient():
             pass
 
     async def _pong(self, data):
-        '''
+        """
         Sending heartbeat to server based on data received from the server in the
         ping message to keep the connection alive.
-        '''
+        """
         try:
             pong_data = {
                 'type': 'pong',
@@ -182,28 +186,26 @@ class ShrimpyWsClient():
             await self.connection.send(json.dumps(pong_data))
         except websockets.exceptions.ConnectionClosed:
             raise ShrimpyConnectionClosed()
-    
 
     def _get_topic(self, message):
-        '''
+        """
         Gets the topic given a message sent from the client / server
-        '''
-        keys = []
+        """
         try:
             # Only ping, error messages have a type
             message_type = message.get('type', None)
-            if ((message_type != None) and (message_type.find('subscribe') == -1)):
+            if (message_type is not None) and (message_type.find('subscribe') == -1):
                 return message_type.lower()
 
             exchange = message.get('exchange', None)
             pair = message.get('pair', None)
-            channel = message['channel'] # Channel must be present
+            channel = message['channel']  # Channel must be present
             keys = [exchange, pair, channel]
-            keys = filter(lambda k: k != None, keys)
+            keys = filter(lambda k: k is not None, keys)
         except KeyError:
-            raise InvalidSubscriptionException() 
+            raise InvalidSubscriptionException()
 
-        if (keys == []):
+        if not keys:
             raise InvalidSubscriptionException()
 
         return str('-'.join(keys)).lower()

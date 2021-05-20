@@ -11,8 +11,7 @@ class AuthProvider(AuthBase):
         self.api_key = api_key
         self.secret_key = secret_key
         self.nonce_lock = threading.Lock()
-        self.last_nonce = int(time.time() *  1000)
-
+        self.last_nonce = int(time.time() * 1000)
 
     def __call__(self, request):
         nonce = self._get_nonce()
@@ -23,15 +22,15 @@ class AuthProvider(AuthBase):
         return request
 
     def _get_nonce(self):
-        new_nonce = int(time.time() *  1000)
+        new_nonce = int(time.time() * 1000)
         with self.nonce_lock:
-            if (new_nonce <= self.last_nonce):
+            if new_nonce <= self.last_nonce:
                 new_nonce = new_nonce + 1
 
             self.last_nonce = new_nonce
 
         return new_nonce
-    
+
 
 def get_auth_headers(timestamp, message, api_key, secret_key):
     message = message.encode('ascii')
