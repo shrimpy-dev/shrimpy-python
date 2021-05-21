@@ -89,10 +89,13 @@ class ShrimpyWsClient:
             asyncio.set_event_loop(loop)
             loop.run_until_complete(self._connect())
             loop.run_until_complete(self._receive_message_handler())
+            print(loop)
         except Exception:
             # Exceptions must be handled via the error handler
             pass
         finally:
+            for task in asyncio.Task.all_tasks():
+                task.cancel()
             loop.run_until_complete(self._disconnect())
             loop.stop()
 
