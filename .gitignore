@@ -1,6 +1,9 @@
 # vs code files
 .vscode/*
 
+
+.idea/*
+
 # dist files
 /build/
 /dist/
