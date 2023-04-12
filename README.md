@@ -1,4 +1,4 @@
-# shrimpy-python
+# [DEPRECATED] shrimpy-python
 
 The official python library for the Shrimpy Developer API https://developers.shrimpy.io/docs. The library is currently only python3 compatible.
 
